@@ -28,6 +28,10 @@ console.log('Leyendo archivo...'); */
 
 
 ////////////////SERVER//////////////////////
+const tempOverview = fs.readFileSync("./templates/template-overview.html", "utf-8")
+const tempCard = fs.readFileSync("./templates/template-card.html", "utf-8")
+const tempOProduct = fs.readFileSync("./templates/template-product.html", "utf-8")
+
 const data = fs.readFileSync("./dev-data/data.json", "utf-8")
 const dataObj = JSON.parse(data)
 
@@ -36,7 +40,10 @@ const server = http.createServer((req, res)=>{
     
     //OVERVIEW PAGE
     if (pathUrl === "/overview" || pathUrl === "/") {
-        res.end("Esta es la pagina principal")
+        res.writeHead(200, {
+            "Content-type":"text/html"
+        })
+        res.end(tempOverview)
     }
     //PRODUCT PAGE 
     else if (pathUrl === "/product"){
