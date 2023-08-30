@@ -26,6 +26,9 @@ console.log('File written');
 
 console.log('Leyendo archivo...'); */
 
+const data = fs.readFileSync("./dev-data/data.json", "utf-8")
+const dataObj = JSON.parse(data)
+
 const server = http.createServer((req, res)=>{
     const pathUrl = req.url
     
@@ -33,9 +36,14 @@ const server = http.createServer((req, res)=>{
         res.end("Esta es la pagina principal")
     } else if (pathUrl === "/product"){
         res.end("Esta es la pagina de productos")
+    } else if (pathUrl === "/api"){
+        res.writeHead(200, {
+            "Content-type":"application/json"
+        })
+        res.end(data)
     } else {
         res.writeHead(400, {
-            "content-type":"text/html"
+            "Content-type":"text/html"
         })
         res.end("<h1>Page not Found!</h1>")
     }
