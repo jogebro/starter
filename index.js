@@ -26,22 +26,31 @@ console.log('File written');
 
 console.log('Leyendo archivo...'); */
 
+
+////////////////SERVER//////////////////////
 const data = fs.readFileSync("./dev-data/data.json", "utf-8")
 const dataObj = JSON.parse(data)
 
 const server = http.createServer((req, res)=>{
     const pathUrl = req.url
     
+    //OVERVIEW PAGE
     if (pathUrl === "/overview" || pathUrl === "/") {
         res.end("Esta es la pagina principal")
-    } else if (pathUrl === "/product"){
+    }
+    //PRODUCT PAGE 
+    else if (pathUrl === "/product"){
         res.end("Esta es la pagina de productos")
-    } else if (pathUrl === "/api"){
+    } 
+    //API
+    else if (pathUrl === "/api"){
         res.writeHead(200, {
             "Content-type":"application/json"
         })
         res.end(data)
-    } else {
+    } 
+    //NOT FOUND
+    else {
         res.writeHead(400, {
             "Content-type":"text/html"
         })
