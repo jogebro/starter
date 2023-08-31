@@ -47,16 +47,16 @@ const replaceTemp = (temp, product)=>{
 
 const tempOverview = fs.readFileSync("./templates/template-overview.html", "utf-8")
 const tempCard = fs.readFileSync("./templates/template-card.html", "utf-8")
-const tempOProduct = fs.readFileSync("./templates/template-product.html", "utf-8")
+const tempProduct = fs.readFileSync("./templates/template-product.html", "utf-8")
 
 const data = fs.readFileSync("./dev-data/data.json", "utf-8")
 const dataObj = JSON.parse(data)
 
 const server = http.createServer((req, res)=>{
-    const pathUrl = req.url
+    const {query, pathname} = url.parse(req.url, true)
     
     //OVERVIEW PAGE
-    if (pathUrl === "/overview" || pathUrl === "/") {
+    if (pathname === "/overview" || pathname === "/") {
         res.writeHead(200, {
             "Content-type":"text/html"
         })
@@ -68,11 +68,16 @@ const server = http.createServer((req, res)=>{
             )
     }
     //PRODUCT PAGE 
-    else if (pathUrl === "/product"){
-        res.end("Esta es la pagina de productos")
+    else if (pathname === "/product"){
+        res.writeHead(200, {
+            "Content-type":"text/html"
+        })
+        const product = dataObj[query.id]
+        const output = replaceTemp(tempProduct, product)
+        res.end(output)
     } 
     //API
-    else if (pathUrl === "/api"){
+    else if (pathname === "/api"){
         res.writeHead(200, {
             "Content-type":"application/json"
         })
